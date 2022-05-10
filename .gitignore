@@ -2,3 +2,7 @@
 design-patterns/.settings/org.eclipse.jdt.core.prefs
 design-patterns/.classpath
 design-patterns/.project
+custom-immutable-class/.project
+custom-immutable-class/.classpath
+*.prefs
+*.class
