@@ -6,16 +6,18 @@ public class Employee implements Comparable<Employee> {
 
 	String name;
 	Integer salary;
+	String skill;
 	
-	public Employee(String name, Integer salary) {
+	public Employee(String name, Integer salary, String skill) {
 		super();
 		this.name = name;
 		this.salary = salary;
+		this.skill = skill;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, salary);
+		return Objects.hash(name);
 	}
 	
 	@Override
@@ -27,9 +29,18 @@ public class Employee implements Comparable<Employee> {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(name, other.name) && Objects.equals(salary, other.salary);
+		return Objects.equals(name, other.name);
 	}
+
 	
+	public String getSkill() {
+		return skill;
+	}
+
+	public void setSkill(String skill) {
+		this.skill = skill;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -43,9 +54,10 @@ public class Employee implements Comparable<Employee> {
 		this.salary = salary;
 	}
 	
+
 	@Override
 	public String toString() {
-		return "Employee [name=" + name + ", salary=" + salary + "]";
+		return "Employee [name=" + name + ", salary=" + salary + ", skill=" + skill + "]";
 	}
 
 	@Override

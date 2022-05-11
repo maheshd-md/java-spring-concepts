@@ -3,7 +3,10 @@ package java8features;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class MainClass {
@@ -15,10 +18,11 @@ public class MainClass {
 	private static void java8FeaturesDemo() {
 		List<Employee> list = new ArrayList<>();
 
-		list.add(new Employee("Mahesh", 100000));
-		list.add(new Employee("Saurabh", 200000));
-		list.add(new Employee("Akshay", 200000));
-		list.add(new Employee("Guru", 50000));
+		list.add(new Employee("Mahesh", 100000, "Java"));
+		list.add(new Employee("Saurabh", 200000, "Java"));
+		list.add(new Employee("Akshay", 200000, "Salesforce"));
+		list.add(new Employee("Guru", 50000, "Java"));
+		list.add(new Employee("Guru", 50000, "Java"));
 
 		// Get salaries of all employees
 		List<Integer> salaries = list.stream().map(Employee::getSalary).collect(Collectors.toList());
@@ -95,7 +99,23 @@ public class MainClass {
 		// Example of parallelStream with order
 		list.parallelStream().forEachOrdered(System.out::println);
 		System.out.println("----------------------------------------------------------------------");
+		
+		
+		// Group by skill
+		Map<String, List<Employee>> groupBySkills = list.stream().collect(Collectors.groupingBy(e -> e.getSkill()));
+		System.out.println(groupBySkills);
+		System.out.println("----------------------------------------------------------------------");
 
+		// Group by skill
+		Map<String, Set<Employee>> groupBySkillsUnique = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.toSet()));
+		System.out.println(groupBySkillsUnique);
+		System.out.println("----------------------------------------------------------------------");
+
+		// Group by skill
+		Map<Integer, Set<Employee>> groupBySalarySorted = list.stream().collect(Collectors.groupingBy(e -> e.getSalary(), TreeMap::new, Collectors.toSet()));
+		System.out.println(groupBySalarySorted);
+		System.out.println("----------------------------------------------------------------------");
+		
 	}
 
 }

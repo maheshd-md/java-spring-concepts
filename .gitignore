@@ -8,3 +8,9 @@ custom-immutable-class/.classpath
 *.class
 cloning-demo/.project
 cloning-demo/.classpath
+executer-service-demo/.classpath
+executer-service-demo/.project
+*.class
+*.class
+*.class
+*.class
