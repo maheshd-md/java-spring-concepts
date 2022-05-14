@@ -2,7 +2,7 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER dhavalshankh.md@gmail.com
 VOLUME /tmp
 RUN addgroup -S "docker-demo"
-RUN adduser -S maheshd -G "dockerdemo"
+RUN adduser -S maheshd -G "docker-demo"
 ARG APP_NAME=docker-demo
 RUN mkdir -p /home/mahesh/app
 ARG JAR_FILE=target/${APP_NAME}-0.0.1-SNAPSHOT.jar
