@@ -23,3 +23,4 @@ java8features/bin/java8features/MainClass.class
 java8features/bin/java8features/Employee.class
 *.class
 *.class
+*/*.class
