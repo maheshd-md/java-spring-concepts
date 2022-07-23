@@ -1,12 +1,12 @@
 package com.java.concurrency.locks;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
-public class ReentrantLockDemo {
+public class SemaphoreDemo {
 
 	static Integer count = 0;
-	static Lock lock = new ReentrantLock();
+	// The constructor parameter "permit" defines the number of threads allowed to acquire the lock
+	static Semaphore lock = new Semaphore(5);
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -14,17 +14,21 @@ public class ReentrantLockDemo {
 			for (int i = 0; i < 100000; i++) {
 				// If current thread did not get the lock, the code is blocked here until the
 				// lock is acquired.
-				lock.lock();
+				try {
+					lock.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				count++;
-				lock.unlock();
+				lock.release();
 			}
 		};
 
 		Runnable r2 = () -> {
 			for (int i = 0; i < 100000; i++) {
-				lock.lock();
+				lock.acquireUninterruptibly(2);
 				count--;
-				lock.unlock();
+				lock.release(2);
 			}
 		};
 
@@ -36,9 +40,7 @@ public class ReentrantLockDemo {
 		decrementer.join();
 		System.out.println("Count = " + count);
 		
-		
-		
-		// Lock.tryLock() demo
+		// Lock.tryAcquire() demo
 		Runnable r3 = () -> {
 
 			Integer lockSuccessCount = 0;
@@ -50,9 +52,9 @@ public class ReentrantLockDemo {
 				 * current thread did not get the lock, code is not blocked, it will execute the
 				 * code in the else block.
 				 */
-				if (lock.tryLock()) {
+				if (lock.tryAcquire()) {
 					lockSuccessCount++;
-					lock.unlock();
+					lock.release();
 				} else {
 					lockFailCount++;
 				}
@@ -67,7 +69,5 @@ public class ReentrantLockDemo {
 		t4.start();
 		t3.join();
 		t4.join();
-		
-
 	}
 }

@@ -1,42 +1,54 @@
 package com.java.concurrency.producer_consumer;
 
 import java.util.ArrayDeque;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ProducerConsumerUsingLock {
+public class ProducerConsumerUsingCondition {
 
 	public static void main(String[] args) {
 
 		Queue<Integer> queue = new ArrayDeque<Integer>(3);
 		Lock lock = new ReentrantLock();
+		Condition isAdded = lock.newCondition();
+		Condition isRemoved = lock.newCondition();
 
 		Runnable producer = () -> {
-			while (true) {
-				lock.lock();
-				System.out.println(queue);
-				if(queue.size() == 3) {
-					System.out.println("Queue is full...!");
-				} else {
+			try {
+				while (true) {
+					lock.lock();
+					System.out.println(queue);
+					while (queue.size() == 3) {
+						System.out.println("Queue is full...!");
+						isRemoved.await();
+					}
 					queue.add(new Random().nextInt(10));
+					isAdded.signal();
+					lock.unlock();
 				}
-				lock.unlock();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		};
 
 		Runnable consumer = () -> {
-			while (true) {
-				lock.lock();
-				System.out.println(queue);
-				if(0 == queue.size()) {
-					System.out.println("Queue is empty...!");					
-				} else {
+			try {
+				while (true) {
+					lock.lock();
+					System.out.println(queue);
+					while (0 == queue.size()) {
+						System.out.println("Queue is empty...!");
+						isAdded.await();
+					}
 					queue.remove();
+					isRemoved.signal();
+					lock.unlock();
 				}
-				lock.unlock();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		};
 
