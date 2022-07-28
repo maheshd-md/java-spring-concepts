@@ -104,8 +104,10 @@ public class MainClass {
 		emp = list.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).filter(e -> {
 			return e.getSalary() < list.stream().max(Comparator.comparingInt(Employee::getSalary)).get().getSalary();
 		}).sorted(Comparator.comparing(Employee::getName)).findFirst();
+		
+		emp = list.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).skip(2).findFirst();
 
-		System.out.println("Employee with 2nd highest salary: " + emp.get());
+		System.out.println("**Employee with 2nd highest salary: " + emp.get());
 		System.out.println("----------------------------------------------------------------------");
 
 		// Example of parallelStream
