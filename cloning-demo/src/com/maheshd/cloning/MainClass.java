@@ -36,6 +36,6 @@ public class MainClass {
 		// Check shallow copy
 		System.out.println(employee.getSkills().hashCode() == cloned.getSkills().hashCode());
 		
-		System.out.println("This is local change!");
+		System.out.println("This is git change!");
 	}
 }
