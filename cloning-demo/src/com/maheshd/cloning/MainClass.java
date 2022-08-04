@@ -37,7 +37,5 @@ public class MainClass {
 		System.out.println(employee.getSkills().hashCode() == cloned.getSkills().hashCode());
 		
 		
-		System.out.println("This is second change!");
-		
 	}
 }
