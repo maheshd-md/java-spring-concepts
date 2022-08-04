@@ -35,5 +35,7 @@ public class MainClass {
 		System.out.println(employee.getAddress() == cloned.getAddress());
 		// Check shallow copy
 		System.out.println(employee.getSkills().hashCode() == cloned.getSkills().hashCode());
+		
+		System.out.println("This is local change!");
 	}
 }
