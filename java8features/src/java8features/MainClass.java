@@ -23,7 +23,7 @@ public class MainClass {
 		list.add(new Employee("Saurabh", 200000, "Java"));
 		list.add(new Employee("Akshay", 200000, "Salesforce"));
 		list.add(new Employee("Guru", 50000, "Java"));
-		list.add(new Employee("Guru", 50000, "Java"));
+		list.add(new Employee("ASagar", 50000, "Java"));
 
 		// Get salaries of all employees
 		List<Integer> salaries = list.stream().map(Employee::getSalary).collect(Collectors.toList());
@@ -94,20 +94,31 @@ public class MainClass {
 		System.out.println("----------------------------------------------------------------------");
 
 		// Find the 2nd largest salary
-		Optional<Integer> secondHighestSalary = list.stream().map(Employee::getSalary).distinct().sorted().skip(1)
+		Optional<Integer> secondHighestSalary = list.stream().map(Employee::getSalary).distinct().sorted(Comparator.reverseOrder()).skip(1)
 				.findFirst();
 		System.out.println("2nd highest salary: " + secondHighestSalary.get());
 		System.out.println("----------------------------------------------------------------------");
 
-		// Find the employee with 2nd largest salary, if salary is same print print
-		// employee whose name comes first in alphabetical order
+		/*
+		 * Find the employee with 2nd largest salary, if salary is same print print
+		 * employee whose name comes first in alphabetical order
+		 */
 		emp = list.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).filter(e -> {
 			return e.getSalary() < list.stream().max(Comparator.comparingInt(Employee::getSalary)).get().getSalary();
 		}).sorted(Comparator.comparing(Employee::getName)).findFirst();
-		
-		emp = list.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).skip(2).findFirst();
 
-		System.out.println("**Employee with 2nd highest salary: " + emp.get());
+		// Find the employee with 2nd largest salary, if salary is same print print
+		Comparator<Employee> c1 = (e1, e2) -> {
+			// If salaries are equal, sort by name, else sort by salary in descending order
+			return e1.getSalary().equals(e2.getSalary()) ? e1.getName().compareTo(e2.getName())
+					: e2.getSalary().compareTo(e1.getSalary());
+		};
+
+		int n = 2;
+		emp = list.stream().sorted(c1).filter(e -> e.getSalary() < list.stream().map(Employee::getSalary).distinct()
+				.sorted(Comparator.reverseOrder()).skip(n-1).findFirst().get()).findFirst();
+
+		System.out.println("**Employee with nth highest salary: " + emp.get());
 		System.out.println("----------------------------------------------------------------------");
 
 		// Example of parallelStream
@@ -132,9 +143,19 @@ public class MainClass {
 		// Group by skill to treemap of list (sorted)
 		Map<Integer, Set<Employee>> groupBySalarySorted = list.stream()
 				.collect(Collectors.groupingBy(e -> e.getSalary(), TreeMap::new, Collectors.toSet()));
+		System.out.println("Group by salary in ascending order:");
 		System.out.println(groupBySalarySorted);
 		System.out.println("----------------------------------------------------------------------");
+		
+		// Print the sum of all employee salaries
+		int sumOfAllSalaries = list.stream().mapToInt(Employee::getSalary).sum();
+		System.out.println("Sum of  all salaries: " +sumOfAllSalaries);
+		System.out.println("----------------------------------------------------------------------");
 
+		// Print the sum of salaries for each skill
+		Map<String, Integer> sumForSkills = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.summingInt(Employee::getSalary)));
+		System.out.println("Sum of salaries for each skill: " +sumForSkills);
+		System.out.println("----------------------------------------------------------------------");
 	}
 
 }
