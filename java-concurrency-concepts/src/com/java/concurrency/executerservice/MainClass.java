@@ -29,18 +29,23 @@ public class MainClass {
 		ExecutorService fixedThreadPoolExecutorService = Executors.newFixedThreadPool(5);
 		for (int i = 1; i <= 10; i++) {
 			Task task = new Task();
+			/*
+			 * We have 2 methods to add task to the executor: execute() & submit()
+			 * The difference is that, submit method returns the Future<T> object, 
+			 * so it is preferred for callable tasks
+			 */
 			fixedThreadPoolExecutorService.execute(task);
+			// fixedThreadPoolExecutorService.submit(task);
 		}
 
 		printSeparatorAfterExecutorCompletion(fixedThreadPoolExecutorService);
 
 		/*
-		 * ---Other methods of ExecutorService: 1. executorService.shutdown() - initiate
-		 * shutdown 2. executorService.isShutdown() - returns true if executorService is
-		 * shutdown 3. executorService.isTerminated() - returns true if all the tasks
-		 * are completed 4. executorService.awaitTermination(long timout, TimeUnit
-		 * timeUnit) - blocks current thread execution until timout or termiation of
-		 * executorService
+		 * ---Other methods of ExecutorService: 
+		 * 1. executorService.shutdown() - initiate shutdown 
+		 * 2. executorService.isShutdown() - returns true if executorService is shutdown 
+		 * 3. executorService.isTerminated() - returns true if all the tasks are completed 
+		 * 4. executorService.awaitTermination(long timout, TimeUnittimeUnit) - blocks current thread execution until timout or termiation of executorService
 		 */
 
 		System.out.println("2. Cached Thread Pool Executor Service: ");
@@ -110,6 +115,11 @@ public class MainClass {
 		CallableTask callableTask3 = new CallableTask(30);
 		ExecutorService callableService = Executors.newSingleThreadExecutor();
 
+		/*
+		 * We have 2 methods to add task to the executor: execute() & submit()
+		 * The difference is that, submit method returns the Future<T> object, 
+		 * so it is preferred for callable tasks
+		 */
 		Future<Integer> future1 = callableService.submit(callableTask1);
 		try {
 			/*
@@ -147,7 +157,7 @@ public class MainClass {
 		future3.cancel(false);
 
 		/*
-		 * Future.idDone() checks whether callable task is completed. Completion may be
+		 * Future.isDone() checks whether callable task is completed. Completion may be
 		 * due to normal termination, an exception, or cancellation -- in all of these
 		 * cases, this method will return true.
 		 */
