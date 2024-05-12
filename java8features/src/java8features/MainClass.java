@@ -26,7 +26,14 @@ public class MainClass {
 		list.add(new Employee("ASagar", 50000, "Java"));
 
 		// Get salaries of all employees
+		// Stream.collect(Collectors.toList() returns the mutable list
 		List<Integer> salaries = list.stream().map(Employee::getSalary).collect(Collectors.toList());
+		salaries.add(300000); // it will work fine.
+		// Stream.toList() added in java 16 and it returns the immutable list
+		salaries = list.stream().map(Employee::getSalary).toList();
+		// salaries.add(400000); this line will throw below exception.
+		// Exception in thread "main" java.lang.UnsupportedOperationException
+		// at java.base/java.util.ImmutableCollections.uoe(ImmutableCollections.java:142)
 		System.out.println(salaries.toString());
 		System.out.println("----------------------------------------------------------------------");
 
