@@ -5,6 +5,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ReentrantLockDemo {
 
+	/* 
+ 	 ReentrantLock: 
+   		It is used to put the lock on shared resource so that any other thread cannot access it and unlock it once the operation is performed.
+   	 Differece between synchronized block and ReentrantLock:
+	 	Compared to the ReentrantLock, the synchronized keyword is more restrictive since it automatically locks and unlocks at the beginning and end of the scope, 
+	 	while the ReentrantLock allows you to lock and unlock at any point in your code.
+  	*/
+
 	static Integer count = 0;
 	static Lock lock = new ReentrantLock();
 
