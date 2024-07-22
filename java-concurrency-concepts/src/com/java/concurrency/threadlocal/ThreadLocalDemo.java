@@ -3,7 +3,7 @@ package com.java.concurrency.threadlocal;
 public class ThreadLocalDemo {
 
 	/*
-	 * ThreadLocal ensures that, every thread accessing it has it's own copy of it.
+	 * ThreadLocal ensures that, every thread accessing shared resource has it's own copy of it.
 	 * In this case, both the threads t1 and t2 have their own copy of the count
 	 */
 	static ThreadLocal<Integer> count = ThreadLocal.withInitial(() -> 0);
