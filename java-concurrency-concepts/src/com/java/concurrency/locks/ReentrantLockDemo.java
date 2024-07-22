@@ -11,6 +11,8 @@ public class ReentrantLockDemo {
    	 Differece between synchronized block and ReentrantLock:
 	 	Compared to the ReentrantLock, the synchronized keyword is more restrictive since it automatically locks and unlocks at the beginning and end of the scope, 
 	 	while the ReentrantLock allows you to lock and unlock at any point in your code.
+   		Also, ReentrantLock supports lock polling and interruptible lock waits that support time-out. 
+     		ReentrantLock also has support for configurable fairness policy, allowing more flexible thread scheduling.
   	*/
 
 	static Integer count = 0;
