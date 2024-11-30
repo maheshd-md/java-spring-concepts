@@ -45,7 +45,7 @@ public class MainClass {
 		 * 1. executorService.shutdown() - initiate shutdown 
 		 * 2. executorService.isShutdown() - returns true if executorService is shutdown 
 		 * 3. executorService.isTerminated() - returns true if all the tasks are completed 
-		 * 4. executorService.awaitTermination(long timout, TimeUnittimeUnit) - blocks current thread execution until timout or termiation of executorService
+		 * 4. executorService.awaitTermination(long timout, TimeUnit timeUnit) - blocks current thread execution until timout or termiation of executorService
 		 */
 
 		System.out.println("2. Cached Thread Pool Executor Service: ");
