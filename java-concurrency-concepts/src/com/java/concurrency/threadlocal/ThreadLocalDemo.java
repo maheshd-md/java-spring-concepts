@@ -21,8 +21,8 @@ public class ThreadLocalDemo {
 		
 		Runnable r2 = () -> {
 			for(int i=0; i<10; i++) {
-				Integer couthreadIndividualCountnt = count.get();
-				count.set(++couthreadIndividualCountnt);
+				Integer threadIndividualCount = count.get();
+				count.set(++threadIndividualCount);
 			}
 			System.out.println(Thread.currentThread().getName() + ": count = " +count.get());
 		};
