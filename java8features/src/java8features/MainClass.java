@@ -1,14 +1,9 @@
 package java8features;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainClass {
 
@@ -35,6 +30,11 @@ public class MainClass {
 		// Exception in thread "main" java.lang.UnsupportedOperationException
 		// at java.base/java.util.ImmutableCollections.uoe(ImmutableCollections.java:142)
 		System.out.println(salaries.toString());
+		System.out.println("----------------------------------------------------------------------");
+
+		// map of name and salary
+		Map<String, Integer> nameSalaryMap = list.stream().collect(Collectors.toMap(Employee::getName, Employee::getSalary));
+		System.out.println(nameSalaryMap);
 		System.out.println("----------------------------------------------------------------------");
 
 		// Sort employees by salary
@@ -84,7 +84,13 @@ public class MainClass {
 		System.out.println("----------------------------------------------------------------------");
 
 		// Find the max salary
+		System.out.println("Employee with max salary method 1:");
 		Optional<Employee> emp = list.stream().max(Comparator.comparingInt(Employee::getSalary));
+		System.out.println(emp.get());
+		System.out.println("----------------------------------------------------------------------");
+
+		System.out.println("Employee with max salary method 2:");
+		emp = list.stream().max((e1, e2) -> e1.getSalary().compareTo(e2.getSalary()));
 		System.out.println(emp.get());
 		System.out.println("----------------------------------------------------------------------");
 
@@ -153,15 +159,31 @@ public class MainClass {
 		System.out.println("Group by salary in ascending order:");
 		System.out.println(groupBySalarySorted);
 		System.out.println("----------------------------------------------------------------------");
-		
+
 		// Print the sum of all employee salaries
-		int sumOfAllSalaries = list.stream().mapToInt(Employee::getSalary).sum();
+//		int sumOfAllSalaries = list.stream().mapToInt(Employee::getSalary).sum();
+		int sumOfAllSalaries = list.stream().map(Employee::getSalary).reduce(0, (i1, i2) -> i1+i2);
 		System.out.println("Sum of  all salaries: " +sumOfAllSalaries);
 		System.out.println("----------------------------------------------------------------------");
 
 		// Print the sum of salaries for each skill
+		Map<String, List<Employee>> groupedBySkill = list.stream().collect(Collectors.groupingBy(Employee::getSkill));
+//		Map<String, List<Employee>> groupedBySkillList = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.toList()));
+//		Map<String, List<Employee>> groupedBySkillSet = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.toList()));
+		System.out.println("Employees grouped by skill: " +groupedBySkill);
+
+		// Print the sum of salaries for each skill
 		Map<String, Integer> sumForSkills = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.summingInt(Employee::getSalary)));
 		System.out.println("Sum of salaries for each skill: " +sumForSkills);
+		System.out.println("----------------------------------------------------------------------");
+
+
+		// Count of each character in a String
+		String s = "abcdabcdgdsfabdger";
+
+		Map<Character, Long> map = s.chars().mapToObj(character -> (char)character)
+										.collect(Collectors.groupingBy(character -> character, Collectors.counting()));
+		System.out.println("Count of each character in the string: " +map);
 		System.out.println("----------------------------------------------------------------------");
 	}
 
