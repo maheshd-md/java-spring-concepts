@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 public class MainClass {
 
+	private static Character firstNonRepeatingChar;
+
 	public static void main(String[] args) {
 		java8FeaturesDemo();
 	}
@@ -60,6 +62,7 @@ public class MainClass {
 		// Print the distinct salaries
 		// For the method distict(), hashCode & equals methods should be implemented by
 		// the class
+		System.out.println("Distinct salaries:");
 		list.stream().map(Employee::getSalary).distinct().forEach(System.out::println);
 		System.out.println("----------------------------------------------------------------------");
 
@@ -113,22 +116,21 @@ public class MainClass {
 		System.out.println("----------------------------------------------------------------------");
 
 		/*
-		 * Find the employee with 2nd largest salary, if salary is same print print
+		 * Find the employee with 2nd largest salary, if salary is same print
 		 * employee whose name comes first in alphabetical order
 		 */
 		emp = list.stream().sorted(Comparator.comparingInt(Employee::getSalary).reversed()).filter(e -> {
 			return e.getSalary() < list.stream().max(Comparator.comparingInt(Employee::getSalary)).get().getSalary();
 		}).sorted(Comparator.comparing(Employee::getName)).findFirst();
 
-		// Find the employee with 2nd largest salary, if salary is same print print
-		Comparator<Employee> c1 = (e1, e2) -> {
+		Comparator<Employee> comparator = (e1, e2) -> {
 			// If salaries are equal, sort by name, else sort by salary in descending order
 			return e1.getSalary().equals(e2.getSalary()) ? e1.getName().compareTo(e2.getName())
 					: e2.getSalary().compareTo(e1.getSalary());
 		};
 
 		int n = 2;
-		emp = list.stream().sorted(c1).filter(e -> e.getSalary() < list.stream().map(Employee::getSalary).distinct()
+		emp = list.stream().sorted(comparator).filter(e -> e.getSalary() < list.stream().map(Employee::getSalary).distinct()
 				.sorted(Comparator.reverseOrder()).skip(n-1).findFirst().get()).findFirst();
 
 		System.out.println("**Employee with nth highest salary: " + emp.get());
@@ -177,14 +179,39 @@ public class MainClass {
 		System.out.println("Sum of salaries for each skill: " +sumForSkills);
 		System.out.println("----------------------------------------------------------------------");
 
+		// Partition employees having salary >= 100000
+		Map<Boolean, List<Employee>> partitionedBySalaryEmplyeeList = list.stream().collect(Collectors.partitioningBy(e -> e.getSalary() >= 100000));
+		System.out.println("Employees partitioned by salary >= 100000: " +partitionedBySalaryEmplyeeList);
+		System.out.println("----------------------------------------------------------------------");
+
+
+
+		// String operations using streams
 
 		// Count of each character in a String
 		String s = "abcdabcdgdsfabdger";
-
 		Map<Character, Long> map = s.chars().mapToObj(character -> (char)character)
 										.collect(Collectors.groupingBy(character -> character, Collectors.counting()));
-		System.out.println("Count of each character in the string: " +map);
+		System.out.println("Count of each character in a string: " +map);
 		System.out.println("----------------------------------------------------------------------");
+
+		// Print first non-repeating character in string
+		Character firstNonRepeatingChar = s.chars().mapToObj(c1 -> (char) c1).filter(c2 -> s.indexOf(c2) == s.lastIndexOf(c2)).findFirst().orElseThrow(() -> new RuntimeException("No non-repeating character found"));
+		System.out.println("First non-repeating character in a string: " +firstNonRepeatingChar);
+		System.out.println("----------------------------------------------------------------------");
+
+		// Count of each word in a sentence
+		String sentence = "Java is fun and Java is powerful";
+		Map<String, Long> wordsCount = Arrays.stream(sentence.split(" ")).collect(Collectors.groupingBy(word -> word, Collectors.counting()));
+		System.out.println("Count of each word in a sentence: " +wordsCount);
+		System.out.println("----------------------------------------------------------------------");
+
+		int[] arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+		int[] arr2 = {2, 4, 6, 8, 10, 12, 14, 16, 18};
+
+		// Find the common elements in two arrays
+		List<Integer> commonElements = Arrays.stream(arr1).boxed().filter(i -> Arrays.stream(arr2).anyMatch(j -> j == i)).collect(Collectors.toUnmodifiableList());
+		System.out.println("Common elements in two arrays: " +commonElements);
 	}
 
 }
