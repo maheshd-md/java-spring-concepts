@@ -169,12 +169,6 @@ public class MainClass {
 		System.out.println("----------------------------------------------------------------------");
 
 		// Print the sum of salaries for each skill
-		Map<String, List<Employee>> groupedBySkill = list.stream().collect(Collectors.groupingBy(Employee::getSkill));
-//		Map<String, List<Employee>> groupedBySkillList = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.toList()));
-//		Map<String, List<Employee>> groupedBySkillSet = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.toList()));
-		System.out.println("Employees grouped by skill: " +groupedBySkill);
-
-		// Print the sum of salaries for each skill
 		Map<String, Integer> sumForSkills = list.stream().collect(Collectors.groupingBy(Employee::getSkill, Collectors.summingInt(Employee::getSalary)));
 		System.out.println("Sum of salaries for each skill: " +sumForSkills);
 		System.out.println("----------------------------------------------------------------------");
