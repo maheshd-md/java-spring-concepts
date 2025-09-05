@@ -105,8 +105,8 @@ public class MainClass {
 		System.out.println("----------------------------------------------------------------------");
 
 		// Find the average salary
-		OptionalDouble avgSalary = list.stream().mapToInt(e -> e.getSalary().intValue()).average();
-		System.out.println(avgSalary.getAsDouble());
+		OptionalDouble avgSalary = list.stream().mapToInt(e -> e.getSalary()).average();
+		System.out.println("Average salary: " + avgSalary.getAsDouble());
 		System.out.println("----------------------------------------------------------------------");
 
 		// Find the 2nd largest salary
@@ -164,6 +164,8 @@ public class MainClass {
 
 		// Print the sum of all employee salaries
 //		int sumOfAllSalaries = list.stream().mapToInt(Employee::getSalary).sum();
+		//First parameter identity in the reduce() function is the initial value that acts as a default value when the stream is empty.
+		// It also serves as a neutral element that does not affect the result of the reduction.
 		int sumOfAllSalaries = list.stream().map(Employee::getSalary).reduce(0, (i1, i2) -> i1+i2);
 		System.out.println("Sum of  all salaries: " +sumOfAllSalaries);
 		System.out.println("----------------------------------------------------------------------");
