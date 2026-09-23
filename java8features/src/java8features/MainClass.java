@@ -175,6 +175,11 @@ public class MainClass {
 		System.out.println("Sum of salaries for each skill: " +sumForSkills);
 		System.out.println("----------------------------------------------------------------------");
 
+		// Print the average salary for each skill
+		Map<String, Double> averageSalaryForSkillMap = list.stream().filter(e -> null != e.getSalary()).collect(Collectors.groupingBy(Employee::getSkill, Collectors.averagingDouble(Employee::getSalary)));
+		System.out.println("Average salary for each skill: " +averageSalaryForSkillMap);
+		System.out.println("----------------------------------------------------------------------");
+
 		// Partition employees having salary >= 100000
 		Map<Boolean, List<Employee>> partitionedBySalaryEmplyeeList = list.stream().collect(Collectors.partitioningBy(e -> e.getSalary() >= 100000));
 		System.out.println("Employees partitioned by salary >= 100000: " +partitionedBySalaryEmplyeeList);
