@@ -1,4 +1,4 @@
-package com.java.concurrency.exceptionhandling;
+package com.java.concurrency;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 

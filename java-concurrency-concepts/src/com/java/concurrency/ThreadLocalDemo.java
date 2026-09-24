@@ -1,4 +1,4 @@
-package com.java.concurrency.threadlocal;
+package com.java.concurrency;
 
 public class ThreadLocalDemo {
 
