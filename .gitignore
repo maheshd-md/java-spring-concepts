@@ -7,3 +7,9 @@
 java-spring-concepts.iml
 .idea/*
 .project
+/jwt-example/.idea
+java-concurrency-concepts/.classpath
+java-concurrency-concepts/.idea/misc.xml
+java-concurrency-concepts/.classpath
+java-concurrency-concepts/.classpath
+java-concurrency-concepts/.idea/vcs.xml
